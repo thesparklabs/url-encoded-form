@@ -77,6 +77,10 @@ extension Bool: URLEncodedFormDataConvertible {
 
     /// See `URLEncodedFormDataConvertible`.
     static func convertFromURLEncodedFormData(_ data: URLEncodedFormData) throws -> Bool {
+        //Special case for checkbox, check for on/off
+        if let data = data.string, data == "on" {
+            return true
+        }
         guard let bool = data.string?.bool else {
             throw URLEncodedFormError(identifier: "bool", reason: "Could not convert to Bool: \(data)")
         }
